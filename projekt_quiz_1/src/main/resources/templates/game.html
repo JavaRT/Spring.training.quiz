@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Projekt Java Spring</title>
+</head>
+<body>
+<h1>Cześć!</h1>
+<h3>
+    <span th:text="${playerName}"></span>,
+    masz obecnie
+    <span th:text="${points}"></span>
+    punktów
+</h3>
+<h2 style="color: red" th:text="${question.text}"></h2>
+
+<form th:action="@{/game}" method="post" th:object="${formDto}">
+    <div th:each="answer: ${question.answers}">
+        <input type="radio" th:id="${answer}" name="answers" th:value="${answer}" th:field="*{answer}" />
+        <label th:for="${answer}" th:text="${answer}"></label>
+    </div>
+    <input type="submit" value="Wyślij">
+</form>
+
+</body>
+</html>
