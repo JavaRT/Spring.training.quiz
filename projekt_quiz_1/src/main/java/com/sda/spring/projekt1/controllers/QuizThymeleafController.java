@@ -6,6 +6,8 @@ import com.sda.spring.projekt1.dtos.UserNameFormDTO;
 import com.sda.spring.projekt1.services.QuizService;
 import com.sda.spring.projekt1.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,15 +23,19 @@ public class QuizThymeleafController {
     private UserService userService;
 
     @RequestMapping("/")
-    public String index(Model model) {
+    public String index(Model model, @AuthenticationPrincipal OAuth2User principal) {
+        if (principal != null) {
+            // uzytkownik jest zalogowany
+            userService.setPlayerNameAndLoadHighScore(principal.getAttribute("name"));
+            return "redirect:/game";
+        }
         model.addAttribute("formDto", new UserNameFormDTO());
         return "index";
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/startGame")
     public String postStartGame(UserNameFormDTO formDto) {
-        System.out.println("Teraz gra gracz: " + formDto.getName());
-        userService.setPlayerName(formDto.getName());
+        userService.setPlayerNameAndLoadHighScore(formDto.getName());
         return "redirect:/game";
     }
 
@@ -40,6 +46,7 @@ public class QuizThymeleafController {
         model.addAttribute("formDto", new UserAnswerFormDTO());
         model.addAttribute("playerName", userService.getPlayerName());
         model.addAttribute("points", userService.getPoints());
+        model.addAttribute("previousBestScore", userService.getPreviousBestScore());
         return "game";
     }
 

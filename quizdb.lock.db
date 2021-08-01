@@ -1,0 +1,6 @@
+#FileLock
+#Sun Aug 01 15:55:38 CEST 2021
+server=192.168.1.123\:49831
+hostName=RT
+method=file
+id=17b01ffac1bba04366bb055dd9bf5f5b402363f661d
