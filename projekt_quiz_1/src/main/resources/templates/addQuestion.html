@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Projekt Java Spring</title>
+</head>
+<body>
+<h1>Dodaj nowe pytanie do quizu:</h1>
+
+<form th:action="@{/addQuestion}" method="post" th:object="${formDto}">
+    <label for="newQuestionText">Treść pytania:</label><br>
+    <input type="text" id="newQuestionText" name="newQuestionText" th:field="*{text}"><br><br>
+
+    <label for="newQuestionAnswer1">Odpowiedź 1:</label><br>
+    <input type="text" id="newQuestionAnswer1" name="newQuestionAnswer1" th:field="*{answer1}"><br>
+
+    <label for="newQuestionAnswer2">Odpowiedź 2:</label><br>
+    <input type="text" id="newQuestionAnswer2" name="newQuestionAnswer2" th:field="*{answer2}"><br>
+
+    <input type="submit" value="Dodaj nowe pytanie!">
+</form>
+</body>
+</html>

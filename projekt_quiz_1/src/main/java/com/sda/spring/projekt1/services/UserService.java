@@ -39,11 +39,6 @@ public class UserService {
 
     public void setPlayerNameAndLoadHighScore(String playerName) {
         this.playerName = playerName;
-        final Optional<ResultEntity> bestResultOptional = resultRepository.findFirstByUsernameOrderByPointsDesc(playerName);
-        if (bestResultOptional.isEmpty()) {
-            previousBestScore = -1;
-        } else {
-            previousBestScore = bestResultOptional.get().getPoints();
-        }
+        this.previousBestScore = resultRepository.findTopScoreForUser(playerName);
     }
 }

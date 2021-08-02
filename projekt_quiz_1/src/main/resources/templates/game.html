@@ -12,7 +12,7 @@
     <span th:text="${points}"></span>
     punktów
 </h3>
-<h3 th:if="${previousBestScore != -1}">
+<h3 th:if="${previousBestScore != null}">
     Twój poprzedni najlepszy wynik to:
     <span th:text="${previousBestScore}">.</span>
 </h3>

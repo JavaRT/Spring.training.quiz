@@ -1,6 +1,7 @@
 package com.sda.spring.projekt1;
 
 import com.sda.spring.projekt1.repositories.QuestionRepository;
+import com.sda.spring.projekt1.repositories.ResultRepository;
 import com.sda.spring.projekt1.services.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +15,9 @@ public class StartupRunner implements CommandLineRunner {
 
     @Autowired
     private QuestionRepository questionRepository;
+
+    @Autowired
+    private ResultRepository resultRepository;
 
     @Override
     public void run(String... args) throws Exception {

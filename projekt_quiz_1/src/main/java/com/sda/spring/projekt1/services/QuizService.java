@@ -16,7 +16,7 @@ import java.util.*;
 public class QuizService {
 
     @Autowired
-    private QuestionRepository questionRepository;
+    private QuestionService questionService;
 
     @Autowired
     private UserService userService;
@@ -25,7 +25,7 @@ public class QuizService {
     private String lastAskedQuestionCorrectAnswer = null;
 
     public QuestionDTO getRandomQuestion() {
-        final QuestionDTO randomQuestion = fetchRandomQuestionFromDatabase();
+        final QuestionDTO randomQuestion = questionService.fetchRandomQuestionFromDatabase();
         String correctAnswer = randomQuestion.getAnswers().get(0);
 
         lastAskedQuestion = randomQuestion;
@@ -33,21 +33,6 @@ public class QuizService {
 
         Collections.shuffle(randomQuestion.getAnswers());
         return randomQuestion;
-    }
-
-    private QuestionDTO fetchRandomQuestionFromDatabase() {
-        final long numberOfQuestionsInDB = questionRepository.count();
-
-        final Random random = new Random();
-        final int selectedQuestionId = random.nextInt((int)numberOfQuestionsInDB) + 1;
-
-        final Optional<QuestionEntity> questionFromDBOptional = questionRepository.findById(selectedQuestionId);
-        if (questionFromDBOptional.isEmpty()) {
-            throw new RuntimeException("Question with id " + selectedQuestionId + " not found!");
-        }
-        final QuestionEntity questionFromDB = questionFromDBOptional.get();
-
-        return new QuestionDTO(questionFromDB.getText(), questionFromDB.getAnswers());
     }
 
     public void checkAnswerAndAddPoints(String answer) {
