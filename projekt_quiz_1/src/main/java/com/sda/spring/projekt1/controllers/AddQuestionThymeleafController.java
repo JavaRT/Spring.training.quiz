@@ -29,8 +29,7 @@ public class AddQuestionThymeleafController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/addQuestion")
     public String postAddQuestion(AddNewQuestionFormDTO formDto) {
-        System.out.println(formDto);
-        questionService.addNewQuestion();
+        questionService.addNewQuestion(formDto);
         return "redirect:/";
     }
 }
