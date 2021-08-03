@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head>
     <meta charset="UTF-8">
     <title>Projekt Java Spring</title>
@@ -16,6 +19,10 @@
     Twój poprzedni najlepszy wynik to:
     <span th:text="${previousBestScore}">.</span>
 </h3>
+
+<div sec:authorize="hasRole('ADMIN')">
+    Wciśnij <a th:href="@{/addQuestion}">tutaj</a>, aby dodać nowe pytanie
+</div>
 
 <h2 style="color: red" th:text="${question.text}"></h2>
 

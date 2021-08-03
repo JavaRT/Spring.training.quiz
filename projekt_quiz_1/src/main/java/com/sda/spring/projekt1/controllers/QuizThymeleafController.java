@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
+
 @Controller
 public class QuizThymeleafController {
 
@@ -34,7 +36,7 @@ public class QuizThymeleafController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/startGame")
-    public String postStartGame(UserNameFormDTO formDto) {
+    public String postStartGame(@Valid UserNameFormDTO formDto) {
         userService.setPlayerNameAndLoadHighScore(formDto.getName());
         return "redirect:/game";
     }
@@ -51,7 +53,7 @@ public class QuizThymeleafController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/game")
-    public String postGame(UserAnswerFormDTO formDto) {
+    public String postGame(@Valid UserAnswerFormDTO formDto) {
         System.out.println("Uzytkownik wybrał " + formDto);
         quizService.checkAnswerAndAddPoints(formDto.getAnswer());
         return "redirect:/game";

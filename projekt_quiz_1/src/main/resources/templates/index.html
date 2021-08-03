@@ -10,10 +10,15 @@
 
 <form th:action="@{/startGame}" method="post" th:object="${formDto}">
     <label for="name">Twoje imię:</label><br>
-    <input type="text" id="name" name="name" th:field="*{name}"><br><br>
+    <input type="text" id="name" name="name" th:field="*{name}"
+           required minlength="3" pattern="[A-Za-zążźćńółęĄŻŹĆŃŁÓĘ]+"><br><br>
     <input type="submit" value="Zagraj!">
 </form>
-<p>Zamiast tego <a th:href="@{/oauth2/authorization/github}">Zaloguj się z GitHubem</a> </p>
+<p>Zamiast tego
+    <a th:href="@{/oauth2/authorization/github}">zaloguj się z GitHubem</a>
+    albo
+    <a th:href="@{/oauth2/authorization/google}">zaloguj się z Google</a>
+</p>
 
 </body>
 </html>
