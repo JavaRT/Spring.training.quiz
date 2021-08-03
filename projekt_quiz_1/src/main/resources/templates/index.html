@@ -11,7 +11,8 @@
 <form th:action="@{/startGame}" method="post" th:object="${formDto}">
     <label for="name">Twoje imię:</label><br>
     <input type="text" id="name" name="name" th:field="*{name}"
-           required minlength="3" pattern="[A-Za-zążźćńółęĄŻŹĆŃŁÓĘ]+"><br><br>
+           required minlength="3" pattern="[A-Za-zążźćńółęĄŻŹĆŃŁÓĘ ]+"
+    ><br><br>
     <input type="submit" value="Zagraj!">
 </form>
 <p>Zamiast tego
@@ -21,4 +22,3 @@
 </p>
 
 </body>
-</html>

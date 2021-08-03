@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -25,9 +27,12 @@ public class QuestionService {
         questionRepository.save(questionEntity);
     }
 
-    public QuestionDTO fetchRandomQuestionFromDatabase() {
-        final QuestionEntity questionFromDB = questionRepository.findRandomQuestion();
-        return new QuestionDTO(questionFromDB.getText(), questionFromDB.getAnswers());
+    public List<QuestionDTO> selectRandomQuestions(int numberOfQuestions) {
+        final List<QuestionEntity> questionEntities = questionRepository.findRandomQuestions(numberOfQuestions);
+        final List<QuestionDTO> questionsDtos = questionEntities.stream()
+                .map(qe -> new QuestionDTO(qe.getText(), qe.getAnswers()))
+                .collect(Collectors.toList());
+        return questionsDtos;
     }
 
 }

@@ -5,6 +5,21 @@
   <title>Quiz</title>
 </head>
 <body>
-<h1>Dzięki za wypełnienie formularza, oddzwonimy!</h1>
+<h1>Dzięki za grę w nasz quiz, to już koniec!</h1>
+<h3>
+  <span th:text="${playerName}"></span>,
+  zdobyłeś(aś)
+  <span th:text="${points}"></span>
+  punktów
+</h3>
+<h3 th:if="${previousBestScore != null}">
+  Twój poprzedni najlepszy wynik to:
+  <span th:text="${previousBestScore}">.</span>
+</h3>
+
+<p>
+  Możesz zagrać jeszcze raz, kliknij <a th:href="@{/}">tutaj</a>
+</p>
+
 </body>
 </html>

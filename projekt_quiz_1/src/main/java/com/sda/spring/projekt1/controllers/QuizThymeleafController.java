@@ -26,29 +26,33 @@ public class QuizThymeleafController {
 
     @RequestMapping("/")
     public String index(Model model, @AuthenticationPrincipal OAuth2User principal) {
+        final UserNameFormDTO formDTO = new UserNameFormDTO();
         if (principal != null) {
-            // uzytkownik jest zalogowany
-            userService.setPlayerNameAndLoadHighScore(principal.getAttribute("name"));
-            return "redirect:/game";
+            formDTO.setName(principal.getAttribute("name"));
         }
-        model.addAttribute("formDto", new UserNameFormDTO());
+        model.addAttribute("formDto", formDTO);
         return "index";
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/startGame")
     public String postStartGame(@Valid UserNameFormDTO formDto) {
         userService.setPlayerNameAndLoadHighScore(formDto.getName());
+        quizService.reset();
         return "redirect:/game";
     }
 
     @RequestMapping("/game")
     public String game(Model model) {
-        final QuestionDTO q = quizService.getRandomQuestion();
-        model.addAttribute("question", q);
-        model.addAttribute("formDto", new UserAnswerFormDTO());
         model.addAttribute("playerName", userService.getPlayerName());
         model.addAttribute("points", userService.getPoints());
         model.addAttribute("previousBestScore", userService.getPreviousBestScore());
+
+        final QuestionDTO q = quizService.getRandomQuestion();
+        if (q == null) {
+            return "thanks";
+        }
+        model.addAttribute("question", q);
+        model.addAttribute("formDto", new UserAnswerFormDTO());
         return "game";
     }
 

@@ -14,7 +14,7 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Intege
     @Query("SELECT q FROM QuestionEntity q ORDER BY function('RAND')")
     List<QuestionEntity> findAllWithRandomOrder(Pageable pageable);
 
-    default QuestionEntity findRandomQuestion() {
-        return findAllWithRandomOrder(PageRequest.of(0, 1)).get(0);
+    default List<QuestionEntity> findRandomQuestions(int numberOfQuestions) {
+        return findAllWithRandomOrder(PageRequest.of(0, numberOfQuestions));
     }
 }

@@ -1,15 +1,12 @@
 package com.sda.spring.projekt1.services;
 
 import com.sda.spring.projekt1.dtos.QuestionDTO;
-import com.sda.spring.projekt1.entities.QuestionEntity;
-import com.sda.spring.projekt1.repositories.QuestionRepository;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @SessionScope
@@ -21,15 +18,23 @@ public class QuizService {
     @Autowired
     private UserService userService;
 
-    private QuestionDTO lastAskedQuestion = null;
+    private List<QuestionDTO> selectedQuestions = null;
+    private Integer questionToBeAskedIndex = null;
     private String lastAskedQuestionCorrectAnswer = null;
 
     public QuestionDTO getRandomQuestion() {
-        final QuestionDTO randomQuestion = questionService.fetchRandomQuestionFromDatabase();
-        String correctAnswer = randomQuestion.getAnswers().get(0);
+        if (selectedQuestions == null) {
+            this.selectedQuestions = questionService.selectRandomQuestions(5);
+            this.questionToBeAskedIndex = 0;
+        }
+        if (this.questionToBeAskedIndex >= this.selectedQuestions.size()) {
+            // koniec quizu, nie mamy wiecej pytan
+            return null;
+        }
+        final QuestionDTO randomQuestion = this.selectedQuestions.get(this.questionToBeAskedIndex);
+        this.questionToBeAskedIndex++;
 
-        lastAskedQuestion = randomQuestion;
-        lastAskedQuestionCorrectAnswer = correctAnswer;
+        lastAskedQuestionCorrectAnswer = randomQuestion.getAnswers().get(0);
 
         Collections.shuffle(randomQuestion.getAnswers());
         return randomQuestion;
@@ -44,12 +49,10 @@ public class QuizService {
         }
         userService.updateUserResult();
     }
+
+    public void reset() {
+        this.selectedQuestions = null;
+        this.questionToBeAskedIndex = null;
+        this.lastAskedQuestionCorrectAnswer = null;
+    }
 }
-
-
-//    QuestionDTO dto = new QuestionDTO("Czy Ziemia jest płaska?",
-//            Arrays.asList("Nie", "Tak", "Nie wiem", "To zależy"));
-//    QuestionDTO dto2 = new QuestionDTO("Czy Ziemia okrąża Słońce?",
-//            Arrays.asList("Tak", "Nie", "Nie wiem", "To zależy"));
-//    QuestionDTO dto3 = new QuestionDTO("Ile wynosi prędkość światła?",
-//            Arrays.asList("300000 km/s", "100 m/s", "1000000000000 km/h", "0"));

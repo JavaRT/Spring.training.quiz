@@ -10,6 +10,6 @@ import javax.validation.constraints.Pattern;
 public class UserNameFormDTO {
     @NotNull
     @Length(min = 3, message = "Imię musi mieć przynajmniej 3 znaki")
-    @Pattern(regexp = "[A-Za-zążźćńółęĄŻŹĆŃŁÓĘ]+")
+    @Pattern(regexp = "[A-Za-zążźćńółęĄŻŹĆŃŁÓĘ ]+")
     private String name;
 }

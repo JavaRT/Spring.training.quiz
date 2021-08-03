@@ -1,4 +1,3 @@
-
 package com.sda.spring.projekt1;
 
 import org.springframework.boot.SpringApplication;
